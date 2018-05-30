@@ -97,3 +97,33 @@ scores = model.evaluate(seq_array, label_array, verbose=1, batch_size=200)
 print('\nMAE: {}'.format(scores[1]))
 print('\nR^2: {}'.format(scores[2]))
 
+##################################
+# EVALUATE ON TEST DATA
+##################################
+
+# We pick the last sequence for each id in the test data
+seq_test = gen_sequence(test_df, sequence_length, sequence_cols)
+seq_test_array = np.concatenate(list(seq_test)).astype(np.float32)
+label_test = gen_labels(test_df, sequence_length, ['target'])
+label_test_array = np.concatenate(label_test).astype(np.float32)
+label_test_array.shape
+seq_test_array = seq_test_array.reshape(label_test_array.shape[0],7,35)
+print(label_test_array.shape)
+print(seq_test_array.shape)
+# test metrics
+scores_test = model.evaluate(seq_test_array, label_test_array, verbose=2)
+print('\nMAE: {}'.format(scores_test[1]))
+print('\nR^2: {}'.format(scores_test[2]))
+
+y_pred_test = model.predict(seq_test_array)
+y_true_test = label_test_array
+# Plot in blue color the predicted data and in green color the
+# actual data to verify visually the accuracy of the model.
+fig_verify = plt.figure(figsize=(10, 10))
+plt.plot(y_pred_test, color="blue")
+plt.plot(y_true_test, color="green")
+plt.title('prediction')
+plt.ylabel('value')
+plt.xlabel('row')
+plt.legend(['predicted', 'actual data'], loc='upper left')
+plt.show()
