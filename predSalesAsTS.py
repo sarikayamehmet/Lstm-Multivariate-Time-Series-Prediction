@@ -37,7 +37,7 @@ def gen_labels(id_df, seq_length, label):
 label_gen = gen_labels(train_df, sequence_length, ['target'])
 label_array = np.concatenate(label_gen).astype(np.float32)
 label_array.shape
-seq_array = seq_array.reshape(label_array.shape[0],7,35)
+seq_array = seq_array.reshape(label_array.shape[0],sequence_length,len(sequence_cols))
 print(label_array.shape)
 print(seq_array.shape)
 ##################################
@@ -107,7 +107,7 @@ seq_test_array = np.concatenate(list(seq_test)).astype(np.float32)
 label_test = gen_labels(test_df, sequence_length, ['target'])
 label_test_array = np.concatenate(label_test).astype(np.float32)
 label_test_array.shape
-seq_test_array = seq_test_array.reshape(label_test_array.shape[0],7,35)
+seq_test_array = seq_test_array.reshape(label_test_array.shape[0],sequence_length,len(sequence_cols))
 print(label_test_array.shape)
 print(seq_test_array.shape)
 # test metrics
